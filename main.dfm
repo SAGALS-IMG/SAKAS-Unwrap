@@ -19,7 +19,7 @@ object Form_main: TForm_main
     Left = 0
     Top = 0
     Width = 451
-    Height = 285
+    Height = 201
     Align = alTop
     Caption = 'Tag Files'
     Color = 16771022
@@ -283,16 +283,17 @@ object Form_main: TForm_main
       Left = 2
       Top = 97
       Width = 447
-      Height = 186
+      Height = 102
       Align = alClient
       BevelOuter = bvNone
       Caption = 'Panel3'
       TabOrder = 1
+      ExplicitHeight = 186
       object CLB_File: TCheckListBox
         Left = 0
         Top = 0
         Width = 447
-        Height = 186
+        Height = 102
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -303,12 +304,13 @@ object Form_main: TForm_main
         ParentFont = False
         TabOrder = 0
         OnClick = CLB_FileClick
+        ExplicitHeight = 186
       end
     end
   end
   object GroupBox1: TGroupBox
     Left = 0
-    Top = 463
+    Top = 379
     Width = 451
     Height = 184
     Align = alTop
@@ -324,6 +326,7 @@ object Form_main: TForm_main
     ParentFont = False
     TabOrder = 1
     TabStop = True
+    ExplicitTop = 463
     object Label1: TLabel
       Left = 6
       Top = 21
@@ -604,7 +607,7 @@ object Form_main: TForm_main
   end
   object GroupBox2: TGroupBox
     Left = 0
-    Top = 647
+    Top = 563
     Width = 451
     Height = 313
     Align = alTop
@@ -619,6 +622,7 @@ object Form_main: TForm_main
     ParentColor = False
     ParentFont = False
     TabOrder = 2
+    ExplicitTop = 647
     object Label10: TLabel
       Left = 137
       Top = 26
@@ -907,9 +911,9 @@ object Form_main: TForm_main
   end
   object Memo: TRichEdit
     Left = 0
-    Top = 960
+    Top = 876
     Width = 451
-    Height = 7
+    Height = 60
     Align = alClient
     Font.Charset = SHIFTJIS_CHARSET
     Font.Color = clWindowText
@@ -921,6 +925,8 @@ object Form_main: TForm_main
     ScrollBars = ssVertical
     TabOrder = 3
     Zoom = 100
+    ExplicitTop = 908
+    ExplicitHeight = 28
   end
   object SB: TStatusBar
     Left = 0
@@ -940,7 +946,7 @@ object Form_main: TForm_main
   end
   object GroupBox4: TGroupBox
     Left = 0
-    Top = 285
+    Top = 201
     Width = 451
     Height = 178
     Align = alTop
@@ -955,6 +961,7 @@ object Form_main: TForm_main
     ParentColor = False
     ParentFont = False
     TabOrder = 5
+    ExplicitTop = 285
     object Chart1: TChart
       Left = 182
       Top = 18
