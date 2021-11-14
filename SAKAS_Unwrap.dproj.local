@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2021/07/17 07:50:55.000.485,=C:\Users\akn\Documents\Embarcadero\Studio\Projects\Unit17.pas</Transaction>
+    <Transaction>2021/10/27 21:02:05.000.750,=C:\Users\akn\Documents\Embarcadero\Studio\Projects\Unit17.pas</Transaction>
+    <Transaction>2021/10/27 21:03:36.000.376,C:\Users\akn\Documents\Embarcadero\Studio\Projects\Unit17.pas=E:\Dropbox\Documents\Program\_20211026_SAKAS_Unwrap\main.pas</Transaction>
+    <Transaction>2021/10/27 21:03:36.000.376,C:\Users\akn\Documents\Embarcadero\Studio\Projects\Unit17.dfm=E:\Dropbox\Documents\Program\_20211026_SAKAS_Unwrap\main.dfm</Transaction>
+    <Transaction>2021/10/27 21:03:44.000.441,C:\Users\akn\Documents\Embarcadero\Studio\Projects\Project17.dproj=E:\Dropbox\Documents\Program\_20211026_SAKAS_Unwrap\SAKAS_Unwrap.dproj</Transaction>
+    <Transaction>2021/10/27 23:33:39.000.573,=E:\Dropbox\Documents\Program\_20211026_SAKAS_Unwrap\Unit_PW.pas</Transaction>
+    <Transaction>2021/10/28 00:20:44.000.266,=E:\Dropbox\Documents\Program\_20211026_SAKAS_Unwrap\Unit_SAKAS.pas</Transaction>
+    <Transaction>2021/11/07 11:00:46.000.794,=E:\Dropbox\Documents\Program\_20211026_SAKAS_Unwrap\Unit_ABOUT.pas</Transaction>
+    <Transaction>2021/11/14 18:59:57.000.249,C:\Users\akn\Documents\GitHub\SAKAS-Unwrap\Unit_PW.pas=</Transaction>
+    <Transaction>2021/11/14 18:59:57.000.233,C:\Users\akn\Documents\GitHub\SAKAS-Unwrap\Unit_SAKAS.pas=</Transaction>
+    <Transaction>2021/11/14 19:00:11.000.718,=C:\Users\akn\Documents\GitHub\SAKAS-COM\SelShape.pas</Transaction>
+    <Transaction>2021/11/14 19:00:11.000.949,=C:\Users\akn\Documents\GitHub\SAKAS-COM\Unit_LP.pas</Transaction>
+    <Transaction>2021/11/14 19:00:12.000.387,=C:\Users\akn\Documents\GitHub\SAKAS-COM\Unit_PW.pas</Transaction>
+    <Transaction>2021/11/14 19:00:13.000.487,=C:\Users\akn\Documents\GitHub\SAKAS-COM\Unit_SAKAS.pas</Transaction>
+  </Transactions>
+</BorlandProject>

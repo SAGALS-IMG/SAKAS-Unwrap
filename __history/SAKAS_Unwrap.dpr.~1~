@@ -1,0 +1,14 @@
+program SAKAS_Unwrap;
+
+uses
+  Vcl.Forms,
+  main in 'main.pas' {Form_main};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TForm_main, Form_main);
+  Application.Run;
+end.
