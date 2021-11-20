@@ -288,7 +288,6 @@ object Form_main: TForm_main
       BevelOuter = bvNone
       Caption = 'Panel3'
       TabOrder = 1
-      ExplicitHeight = 186
       object CLB_File: TCheckListBox
         Left = 0
         Top = 0
@@ -304,7 +303,6 @@ object Form_main: TForm_main
         ParentFont = False
         TabOrder = 0
         OnClick = CLB_FileClick
-        ExplicitHeight = 186
       end
     end
   end
@@ -326,7 +324,6 @@ object Form_main: TForm_main
     ParentFont = False
     TabOrder = 1
     TabStop = True
-    ExplicitTop = 463
     object Label1: TLabel
       Left = 6
       Top = 21
@@ -622,7 +619,6 @@ object Form_main: TForm_main
     ParentColor = False
     ParentFont = False
     TabOrder = 2
-    ExplicitTop = 647
     object Label10: TLabel
       Left = 137
       Top = 26
@@ -925,8 +921,6 @@ object Form_main: TForm_main
     ScrollBars = ssVertical
     TabOrder = 3
     Zoom = 100
-    ExplicitTop = 908
-    ExplicitHeight = 28
   end
   object SB: TStatusBar
     Left = 0
@@ -961,7 +955,6 @@ object Form_main: TForm_main
     ParentColor = False
     ParentFont = False
     TabOrder = 5
-    ExplicitTop = 285
     object Chart1: TChart
       Left = 182
       Top = 18

@@ -434,7 +434,10 @@ var
   BFN : string;
 begin
   Init_PInfo(Sender);
-  BFN := Edit_FN.Text+UD_ImgNo.Position.ToString;
+  if Edit_ImgNo.Text<>'' then
+    BFN := Edit_FN.Text+UD_ImgNo.Position.ToString
+  else
+    BFN := Edit_FN.Text;
 
   if CB_FType.ItemIndex =0 then
   begin
@@ -472,10 +475,7 @@ begin
   end;
 
   Calc_PH(Sender);
-//  Form_PW.SData[1] := ImgData[1].Data;
-//  Form_PW.SData[2] := ImgData[2].Data;
-//  Form_PW.SData[3] := ImgData[3].Data;
-//  Form_PW.SData[4] := ImgData[4].Data;
+
   SIData[1] := ImgData[1].Data;
   SIData[2] := ImgData[2].Data;
   SIData[3] := ImgData[3].Data;
@@ -1000,11 +1000,16 @@ procedure TForm_main.BB_SaveClick(Sender: TObject);
 var
   BFN, BDir : string;
 begin
-  BFN := Edit_FN.Text;
-  Bdir := TDirectory.GetParent(TDirectory.GetParent(ExtractFilePath(BFN)))+'\uw';
-  if not(TDirectory.Exists(BDir)) then
-    MkDir(BDir);
-  Form_PW.Save_Data(BDir+'\'+ExtractFileName(BFN)+'u_'+Edit_ImgNo.Text,Sender);
+  if Edit_ImgNo.Text<>'' then
+  begin
+    BFN := Edit_FN.Text;
+    Bdir := TDirectory.GetParent(TDirectory.GetParent(ExtractFilePath(BFN)))+'\uw';
+    if not(TDirectory.Exists(BDir)) then
+      MkDir(BDir);
+    Form_PW.Save_Data(BDir+'\'+ExtractFileName(BFN)+'u_'+Edit_ImgNo.Text,Sender);
+  end
+  else
+    Form_PW.Save_Data(Edit_FN.Text+'_u',Sender);
 end;
 
 
