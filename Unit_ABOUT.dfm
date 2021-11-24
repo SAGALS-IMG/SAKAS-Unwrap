@@ -43,7 +43,7 @@ object AboutBox: TAboutBox
       Top = 98
       Width = 107
       Height = 16
-      Caption = 'Ver. 2021/11/05'
+      Caption = 'Ver. 2021/11/24'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -15

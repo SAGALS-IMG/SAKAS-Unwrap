@@ -111,7 +111,7 @@ object Form_main: TForm_main
         ParentFont = False
       end
       object SB_TagList_Reload: TSpeedButton
-        Left = 394
+        Left = 385
         Top = 1
         Width = 23
         Height = 22
@@ -133,7 +133,7 @@ object Form_main: TForm_main
         OnClick = SB_TagList_ReloadClick
       end
       object SB_Dir: TSpeedButton
-        Left = 368
+        Left = 357
         Top = 0
         Width = 23
         Height = 22
@@ -188,7 +188,7 @@ object Form_main: TForm_main
         OnClick = BB_ProcClick
       end
       object CB_Ext: TComboBox
-        Left = 307
+        Left = 296
         Top = 0
         Width = 51
         Height = 22
@@ -238,7 +238,7 @@ object Form_main: TForm_main
       object Edit_Dir: TEdit
         Left = 35
         Top = 0
-        Width = 263
+        Width = 255
         Height = 22
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -1092,7 +1092,7 @@ object Form_main: TForm_main
         Width = 62
         Height = 24
         TabOrder = 1
-        Text = '500'
+        Text = '20'
       end
       object UD_ImgNo: TUpDown
         Left = 153
@@ -1101,7 +1101,7 @@ object Form_main: TForm_main
         Height = 24
         Associate = Edit_ImgNo
         Max = 2000
-        Position = 500
+        Position = 20
         TabOrder = 2
         OnClick = UD_ImgNoClick
       end

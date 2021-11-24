@@ -11,7 +11,7 @@ uses
 
 const
   OIWidth  = 2600;
-  OIHeight = 2600;
+  OIHeight = 2200;
   RMax = 5000;
   TraceMax = 1000 ;
 type
@@ -262,6 +262,8 @@ begin
     Edit_BASE.Text := Ini.ReadString( 'Param', 'UnWrap_Factor', '' );
     Edit_ST.Text := Ini.ReadString( 'Param', 'Start_No', '' );
     Edit_End.Text := Ini.ReadString( 'Param', 'End_No', '' );
+
+    Edit_ImgNo.Text :=Ini.ReadString( 'Param', 'Img_No', '10' );
   finally
     Ini.Free;
   end;
@@ -328,6 +330,8 @@ begin
     Ini.WriteString( 'Param', 'UnWrap_Factor', Edit_BASE.Text );
     Ini.WriteString( 'Param', 'Start_No', Edit_ST.Text );
     Ini.WriteString( 'Param', 'End_No', Edit_End.Text );
+
+    Ini.WriteString( 'Param', 'Img_No', Edit_ImgNo.Text );
   finally
     Ini.Free;
   end;
@@ -353,9 +357,22 @@ begin
 end;
 
 procedure TForm_main.SB_FOpenClick(Sender: TObject);
+var
+  TmpStr,lStr :string;
+  li:longint;
 begin
   if OpenDialog1.Execute then
-    Edit_FN.Text := ExtractFilePath(OpenDialog1.FileName)+ChangeFileExt( ExtractFileName(OpenDialog1.FileName), '' );
+  begin
+    TmpStr := OpenDialog1.FileName;
+    lStr := '';
+    li:=Length(TmpStr);
+    while (TmpStr[li]<>'_') and (li>0) do
+    begin
+      lStr := TmpStr[li]+lStr;
+      Dec(li);
+    end;
+    Edit_FN.Text := Copy(TmpStr,1,li);
+  end;
 end;
 
 
@@ -735,9 +752,8 @@ end;
 
 procedure TForm_main.QuickSort2(var ldata: array of double; lst, lend: Integer);
 var
-  i,j,m: Integer;
+  i,j: Integer;
   t,n : double;
-  S : string;
 begin
   repeat
     i := lst;
