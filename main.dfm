@@ -221,20 +221,6 @@ object Form_main: TForm_main
         TabOrder = 2
         OnClick = CB_AllCKClick
       end
-      object RB_Proc3: TRadioButton
-        Left = 11
-        Top = 28
-        Width = 160
-        Height = 17
-        Caption = 'Unwrap cond. in Tag'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'Tahoma'
-        Font.Style = [fsBold]
-        ParentFont = False
-        TabOrder = 3
-      end
       object Edit_Dir: TEdit
         Left = 35
         Top = 0
@@ -277,6 +263,42 @@ object Form_main: TForm_main
         ParentFont = False
         TabOrder = 5
         OnClick = BB_STOP_ProcClick
+      end
+      object RB_Compled: TRadioButton
+        Left = 177
+        Top = 28
+        Width = 84
+        Height = 17
+        Caption = 'Completed'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 6
+      end
+      object Panel4: TPanel
+        Left = 10
+        Top = 25
+        Width = 161
+        Height = 25
+        BevelOuter = bvNone
+        TabOrder = 7
+      end
+      object RB_Proc3: TRadioButton
+        Left = 11
+        Top = 28
+        Width = 160
+        Height = 17
+        Caption = 'Unwrap cond. in Tag'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 3
       end
     end
     object Panel3: TPanel

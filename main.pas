@@ -129,6 +129,8 @@ type
     SB_TagList_Reload: TSpeedButton;
     SB_Dir: TSpeedButton;
     BB_STOP_Proc: TBitBtn;
+    RB_Compled: TRadioButton;
+    Panel4: TPanel;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure SB_FOpenClick(Sender: TObject);
@@ -167,6 +169,8 @@ type
 
     procedure OpenTag(Sender: TObject);
     procedure WriteProc3(Sender: TObject);
+    procedure WriteComped(Sender: TObject);
+
     procedure BB_Copy_CondClick(Sender: TObject);
     procedure BB_ProcClick(Sender: TObject);
     procedure SB_HelpClick(Sender: TObject);
@@ -1183,7 +1187,9 @@ var
   TmpStr : string;
 begin
   RB_Proc3.Checked := false;
+  RB_Compled.Checked:=false;
   Edit_FN.Text := '';
+
   if UpperCase(ExtractFileExt(TagFN)) = '.TAG' then
   begin
     Ini := TIniFile.Create(TagFN);
@@ -1241,10 +1247,25 @@ begin
           CB_Ang.Checked := Ini.ReadBool('Proc_3','UW_Ang',true);
         if Ini.ValueExists('Proc_3','UW_Power') then
           Edit_Base.Text := Ini.ReadString('Proc_3','UW_Power', '1');
+
+        if Ini.ReadString( 'Proc_3', 'Status','')='Completed' then
+          RB_Compled.Checked:=true;
       end;
     finally
       Ini.Free;
     end;
+  end;
+end;
+
+procedure TForm_main.WriteComped(Sender: TObject);
+var
+  Ini: TIniFile;
+begin
+  Ini := TIniFile.Create(Edit_FN.Text+'.tag');
+  try
+    Ini.WriteString( 'Proc_3', 'Status', 'Completed');
+  finally
+    Ini.Free;
   end;
 end;
 
