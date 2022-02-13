@@ -87,8 +87,6 @@ type
     BB_Calc_Dist: TBitBtn;
     Label10: TLabel;
     CB_M: TComboBox;
-    CB_Dir: TComboBox;
-    Label19: TLabel;
     BB_Sort: TBitBtn;
     BB_Connect: TBitBtn;
     CB_FixP: TCheckBox;
@@ -131,6 +129,10 @@ type
     BB_STOP_Proc: TBitBtn;
     RB_Compled: TRadioButton;
     Panel4: TPanel;
+    CB_Dir2: TCheckBox;
+    Bevel1: TBevel;
+    RG_Dir: TRadioGroup;
+    UD_Base: TUpDown;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure SB_FOpenClick(Sender: TObject);
@@ -142,7 +144,7 @@ type
     procedure BB_LoadClick(Sender: TObject);
     procedure UD_ImgNoClick(Sender: TObject; Button: TUDBtnType);
 
-    function CalcDist(Xo,Yo:smallint;mode:byte;BASE:double;CalMode,CalMode2:byte):double;
+    function CalcDist(Xo,Yo:smallint;mode:byte;BASE:double;CalMode,CalMode2:byte; lAng:boolean):double;
     procedure BB_Calc_DistClick(Sender: TObject);
 
     procedure SwapInfo(Lo,Hi:Integer);
@@ -262,12 +264,12 @@ begin
     UD_Dig.Position := Ini.ReadInteger( 'Param', 'File_Dig', 0 );
 
     CB_M.ItemIndex := Ini.ReadInteger( 'Param', 'UnWrap_Method', 1);
-    CB_Dir.ItemIndex := Ini.ReadInteger( 'Param', 'UnWrap_Dir', 1);
+    RG_Dir.ItemIndex := Ini.ReadInteger( 'Param', 'UnWrap_Dir', 1);
     Edit_BASE.Text := Ini.ReadString( 'Param', 'UnWrap_Factor', '' );
     Edit_ST.Text := Ini.ReadString( 'Param', 'Start_No', '' );
     Edit_End.Text := Ini.ReadString( 'Param', 'End_No', '' );
 
-    Edit_ImgNo.Text :=Ini.ReadString( 'Param', 'Img_No', '10' );
+    UD_ImgNo.Position :=Ini.ReadInteger( 'Param', 'Img_No', 10 );
   finally
     Ini.Free;
   end;
@@ -330,12 +332,12 @@ begin
     Ini.WriteInteger( 'Param', 'File_Dig', UD_Dig.Position );
 
     Ini.WriteInteger( 'Param', 'UnWrap_Method', CB_M.ItemIndex );
-    Ini.WriteInteger( 'Param', 'UnWrap_Dir', CB_Dir.ItemIndex);
+    Ini.WriteInteger( 'Param', 'UnWrap_Dir', RG_Dir.ItemIndex);
     Ini.WriteString( 'Param', 'UnWrap_Factor', Edit_BASE.Text );
     Ini.WriteString( 'Param', 'Start_No', Edit_ST.Text );
     Ini.WriteString( 'Param', 'End_No', Edit_End.Text );
 
-    Ini.WriteString( 'Param', 'Img_No', Edit_ImgNo.Text );
+    Ini.WriteInteger( 'Param', 'Img_No', UD_ImgNo.Position );
   finally
     Ini.Free;
   end;
@@ -544,7 +546,7 @@ begin
   end;
 end;
 function TForm_main.CalcDist(Xo, Yo: smallint; mode: byte; BASE: double;
-  CalMode, CalMode2: byte): double;
+  CalMode, CalMode2: byte; lAng:boolean): double;
 var
   X1,X2,X3,Y1,Y2,Y3 : word;
   d1,d2,d3,d4,ro,r1,r2,r3,io,i1,i2,i3,ang,Dist,r:double;
@@ -624,15 +626,15 @@ begin
         if ang>Pi then ang := 2*Pi-ang;
         if d1+d3+0.2*d2+0.2*d4<>0 then
           case CalMode of
-            2:if CB_Ang.Checked then
+            2:if lAng then
                 Dist := ang
               else
                 Dist := 1;
-            3:if CB_Ang.Checked then
+            3:if lAng then
                 Dist := ang/(d1+d3+0.2*d2+0.2*d4)
               else
                 Dist := 1/(d1+d3+0.2*d2+0.2*d4);
-            4:if CB_Ang.Checked then
+            4:if lAng then
                 Dist := ang*abs(d3-d1)/(d1+d3+0.2*d2+0.2*d4)
               else
                 Dist := abs(d3-d1)/(d1+d3+0.2*d2+0.2*d4);
@@ -647,7 +649,7 @@ begin
         d4 := (ImgData[2].PMax-ImgData[2].Data[Y3,X3])/(ImgData[2].PMax-ImgData[2].PMin);
         ang := Abs(ImgData[1].Data[Yo,Xo]-ImgData[1].Data[Y2,X2]);
         if ang>Pi then ang := 2*Pi-ang;
-        if CB_Ang.Checked then
+        if lAng then
           Dist := ang*(d1+d3+0.2*d2+0.2*d4)
         else
           Dist := (d1+d3+0.2*d2+0.2*d4)
@@ -659,7 +661,7 @@ begin
         d4 := (ImgData[2].PMax-ImgData[2].Data[Y3,X3]);
         ang := Abs(ImgData[1].Data[Yo,Xo]-ImgData[1].Data[Y2,X2]);
         if ang>Pi then ang := 2*Pi-ang;
-        if CB_Ang.Checked then
+        if lAng then
           Dist := Power(ang,0.35)*(Ln(d1+1)+Ln(d3+1)+0.2*Ln(d2+1)+0.2*Ln(d4+1))
         else
           Dist := (Ln(d1+1)+Ln(d3+1)+0.2*Ln(d2+1)+0.2*Ln(d4+1));
@@ -667,31 +669,34 @@ begin
   end;
   r:=PW/PH;
   case CalMode2 of
-    1://像の中心から行う
+    6://像の中心から行う
       Dist := Dist*(0.01+Sqrt(Sqr(Xo-PW div 2)+Sqr(Yo-PH div 2)))/
                       Sqrt(Sqr(PW div 2)+Sqr(PH div 2));
     2://像の左から行う
       Dist := Dist*(1+Xo);
-    3://像の右から行う
+    10://像の右から行う
       Dist := Dist*(1+(PW-Xo));
     4://像の上から行う
       Dist := Dist*(1+Yo/30);
-    5://像の下から行う
+    8://像の下から行う
       Dist := Dist*(1+(PH-Yo)/30);
-    6://像の横中心から行う
-      Dist := Dist*(1+Abs(PW/2-Xo));
+
+//    6://像の横中心から行う
+//      Dist := Dist*(1+Abs(PW/2-Xo));
+
     7://像の下横中心から行う
 //      Dist := Dist*(1+Base*{Sqrt}({Sqr}Abs(PW/2-Xo)+{Sqr}(PH-Yo)*r));
       Dist := Dist*(1+Base*Sqrt(Sqr(PW/2-Xo)+Sqr(PH-Yo)));
-    8://像の上横中心から行う
+    5://像の上横中心から行う
       Dist := Dist*(1+Base*{Sqrt}({Sqr}Abs(PW/2-Xo)+{Sqr}(Yo)*r));
-    9://像の左下から行う
+
+    3://像の左下から行う
       Dist := Dist*(1+Base*(Xo+(PH-Yo)*r));
-    10://像の右上から行う
+    9://像の右上から行う
       Dist := Dist*(1+Base*((PW-Xo)+Yo*r));
-    11://像の左上から行う
+    1://像の左上から行う
       Dist := Dist*(1+Base*(Xo+Yo*r));
-    12://像の右下から行う
+    11://像の右下から行う
       Dist := Dist*(1+Base*((PW-Xo)+(PH-Yo)*r));
   end;
 
@@ -702,11 +707,10 @@ end;
 
 procedure TForm_main.BB_Calc_DistClick(Sender: TObject);
 var
-  i,j:longint;
+  i,j, lDir, lMode:longint;
   lMax,TmpDbl{,Ratio},Base: double;
+  lAng : boolean;
 begin
-  Base := StrToFloat(Edit_Base.Text);
-
   //位相ジャンプ重み関数の初期化
   for j:=0 to PH-1 do
     for i:=0 to PW-1 do
@@ -715,12 +719,20 @@ begin
   SB.Panels[1].Text := 'Calc Distance ';
   Application.ProcessMessages;
   lMax := 0;
+  lMode :=CB_M.ItemIndex;
+  if CB_Dir2.Checked then
+    lDir := RG_Dir.ItemIndex+1
+  else
+    lDir := 0;
+  Base := UD_Base.Position;
+  lAng := CB_Ang.Checked;
+
   InitSData;
 
   for j:=1 to PH-2 do
     for i:=0 to PW-2 do
     begin
-      TmpDbl := CalcDist(i,j,1,Base,CB_M.ItemIndex,CB_Dir.ItemIndex);
+      TmpDbl := CalcDist(i,j,1,Base,lMode,lDir,lAng);
       if TmpDbl>lMax then lMax := TmpDbl;
       SData[i+(j-1)*PW] := TmpDbl;
       SDataInfo[i+(j-1)*PW].X := i;
@@ -730,7 +742,7 @@ begin
   for j:=0 to PH-2 do
     for i:=1 to PW-2 do
     begin
-      TmpDbl := CalcDist(i,j,2,Base,CB_M.ItemIndex,CB_Dir.ItemIndex);
+      TmpDbl := CalcDist(i,j,2,Base,lMode,lDir,lAng);
       if TmpDbl>lMax then lMax := TmpDbl;
       SData[i+j*PW+PH*PW] := TmpDbl;
       SDataInfo[i+j*PW+PH*PW].X := i;
@@ -1072,7 +1084,7 @@ begin
   Memo.Lines.Clear;
   Memo.Lines.Add('Unwrapping... ');
   Memo.Lines.Add('Method : '+CB_M.ItemIndex.ToString);
-  Memo.Lines.Add('Dir : '+CB_Dir.ItemIndex.ToString);
+  Memo.Lines.Add('Dir : '+RG_Dir.ItemIndex.ToString);
   Memo.Lines.Add('Dir Power : '+Edit_Base.Text);
   Memo.Lines.Add('Fix Connection : '+CB_FixP.Checked.ToString);
 
@@ -1242,7 +1254,7 @@ begin
         if Ini.ValueExists('Proc_3','UW_Method') then
           CB_M.ItemIndex := Ini.ReadInteger('Proc_3','UW_Method',1);
         if Ini.ValueExists('Proc_3','UW_Dir') then
-          CB_Dir.ItemIndex := Ini.ReadInteger('Proc_3','UW_Dir',1);
+          RG_Dir.ItemIndex := Ini.ReadInteger('Proc_3','UW_Dir',1);
         if Ini.ValueExists('Proc_3','UW_Ang') then
           CB_Ang.Checked := Ini.ReadBool('Proc_3','UW_Ang',true);
         if Ini.ValueExists('Proc_3','UW_Power') then
@@ -1296,7 +1308,7 @@ begin
     Ini.WriteInteger( 'Proc_3', 'Sino_End', StrToInt(Edit_End.Text));
 
     Ini.WriteInteger('Proc_3','UW_Method',CB_M.ItemIndex );
-    Ini.WriteInteger('Proc_3','UW_Dir',CB_Dir.ItemIndex  );
+    Ini.WriteInteger('Proc_3','UW_Dir',RG_Dir.ItemIndex  );
     Ini.WriteBool('Proc_3','UW_Ang',CB_Ang.Checked  );
     Ini.WriteString('Proc_3','UW_Power', Edit_Base.Text);
   finally

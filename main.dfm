@@ -2,7 +2,7 @@ object Form_main: TForm_main
   Left = 0
   Top = 0
   Caption = 'SAKAS_Unwrap'
-  ClientHeight = 955
+  ClientHeight = 1075
   ClientWidth = 451
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -628,7 +628,7 @@ object Form_main: TForm_main
     Left = 0
     Top = 563
     Width = 451
-    Height = 313
+    Height = 390
     Align = alTop
     Caption = 'Unwrap'
     Color = 14740960
@@ -648,23 +648,16 @@ object Form_main: TForm_main
       Height = 16
       Caption = 'Max Diff : '
     end
-    object Label19: TLabel
-      Left = 35
-      Top = 85
-      Width = 58
-      Height = 16
-      Caption = 'Direction'
-    end
     object Label8: TLabel
-      Left = 309
-      Top = 86
+      Left = 33
+      Top = 139
       Width = 41
       Height = 16
       Caption = 'Power'
     end
     object SB_CLR_List: TSpeedButton
       Left = 378
-      Top = 147
+      Top = 222
       Width = 41
       Height = 22
       Caption = 'CLR'
@@ -672,19 +665,25 @@ object Form_main: TForm_main
     end
     object Label31: TLabel
       Left = 35
-      Top = 255
+      Top = 330
       Width = 170
       Height = 16
       Caption = 'Paste Base Value (+CTRL)'
     end
     object SB_Clear_Pen: TSpeedButton
       Left = 364
-      Top = 255
+      Top = 330
       Width = 49
       Height = 22
       Caption = 'Clr Pen'
       Flat = True
       OnClick = SB_Clear_PenClick
+    end
+    object Bevel1: TBevel
+      Left = 119
+      Top = 96
+      Width = 70
+      Height = 2
     end
     object CB_Calc_Dist: TCheckBox
       Left = 10
@@ -709,7 +708,6 @@ object Form_main: TForm_main
       Top = 52
       Width = 386
       Height = 24
-      ItemIndex = 1
       TabOrder = 2
       Text = 'Sqrt(Sqr(1/(dr+Parm1))+Sqr(1/(di+Parm1)))'
       Items.Strings = (
@@ -721,76 +719,53 @@ object Form_main: TForm_main
         '((1-Abs1)+(1-Abs2))'
         '((Ln(1-Abs1)+Ln(1-Abs2))')
     end
-    object CB_Dir: TComboBox
-      Left = 110
-      Top = 82
-      Width = 113
-      Height = 24
-      ItemIndex = 1
-      TabOrder = 3
-      Text = 'Image Center'
-      Items.Strings = (
-        'Non'
-        'Image Center'
-        'Left'
-        'Right'
-        'Top'
-        'Bottom'
-        'Horizontal Center'
-        'Bottom Center'
-        'Top Center'
-        'Left Bottom'
-        'Right Top'
-        'Left Top'
-        'Right Bottom')
-    end
     object BB_Sort: TBitBtn
       Left = 33
-      Top = 112
+      Top = 187
       Width = 95
       Height = 25
       Caption = 'Sort'
-      TabOrder = 4
+      TabOrder = 3
       OnClick = BB_SortClick
     end
     object BB_Connect: TBitBtn
       Left = 33
-      Top = 143
+      Top = 218
       Width = 95
       Height = 25
       Caption = 'Cennect'
-      TabOrder = 5
+      TabOrder = 4
       OnClick = BB_ConnectClick
     end
     object CB_FixP: TCheckBox
       Left = 153
-      Top = 147
+      Top = 222
       Width = 125
       Height = 17
       Caption = 'Fix Connection'
-      TabOrder = 6
+      TabOrder = 5
     end
     object Edit_BASE: TEdit
-      Left = 361
-      Top = 82
+      Left = 82
+      Top = 136
       Width = 58
       Height = 24
-      TabOrder = 7
+      TabOrder = 6
       Text = '1'
     end
     object CB_Ang: TCheckBox
-      Left = 234
-      Top = 86
+      Left = 33
+      Top = 112
       Width = 76
       Height = 17
       Caption = '*Ang'
       Checked = True
       State = cbChecked
-      TabOrder = 8
+      TabOrder = 7
     end
     object SG_FixList: TStringGrid
       Left = 33
-      Top = 175
+      Top = 250
       Width = 387
       Height = 74
       ColCount = 3
@@ -805,7 +780,7 @@ object Form_main: TForm_main
       Font.Style = [fsBold]
       Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goEditing, goTabs, goThumbTracking]
       ParentFont = False
-      TabOrder = 9
+      TabOrder = 8
       ColWidths = (
         120
         120
@@ -864,74 +839,119 @@ object Form_main: TForm_main
     end
     object Edit_PV: TEdit
       Left = 225
-      Top = 252
+      Top = 327
       Width = 67
       Height = 24
-      TabOrder = 10
+      TabOrder = 9
       Text = '0'
     end
     object BB_Unwrap: TBitBtn
       Left = 33
-      Top = 282
+      Top = 357
       Width = 95
       Height = 25
       Caption = 'Unwrap'
-      TabOrder = 11
+      TabOrder = 10
       OnClick = BB_UnwrapClick
     end
     object CB_Auto_level: TCheckBox
       Left = 137
-      Top = 286
+      Top = 361
       Width = 97
       Height = 17
       Caption = 'Auto level'
       Checked = True
       State = cbChecked
-      TabOrder = 12
+      TabOrder = 11
     end
     object CB_Unwrap: TCheckBox
       Left = 10
-      Top = 286
+      Top = 361
+      Width = 17
+      Height = 17
+      Checked = True
+      State = cbChecked
+      TabOrder = 12
+    end
+    object CB_Connect: TCheckBox
+      Left = 10
+      Top = 222
       Width = 17
       Height = 17
       Checked = True
       State = cbChecked
       TabOrder = 13
     end
-    object CB_Connect: TCheckBox
+    object CB_Sort: TCheckBox
       Left = 10
-      Top = 147
+      Top = 191
       Width = 17
       Height = 17
       Checked = True
       State = cbChecked
       TabOrder = 14
     end
-    object CB_Sort: TCheckBox
-      Left = 10
-      Top = 116
-      Width = 17
-      Height = 17
-      Checked = True
-      State = cbChecked
-      TabOrder = 15
-    end
     object CB_Mon: TCheckBox
       Left = 283
-      Top = 147
+      Top = 222
       Width = 75
       Height = 17
       Caption = 'Monitor'
       Checked = True
       State = cbChecked
+      TabOrder = 15
+    end
+    object CB_Dir2: TCheckBox
+      Left = 33
+      Top = 89
+      Width = 95
+      Height = 17
+      Caption = 'Direction'
+      Checked = True
+      State = cbChecked
       TabOrder = 16
+    end
+    object RG_Dir: TRadioGroup
+      Left = 195
+      Top = 82
+      Width = 224
+      Height = 95
+      BiDiMode = bdLeftToRight
+      Caption = 'Dir'
+      Columns = 3
+      ItemIndex = 5
+      Items.Strings = (
+        'TL'
+        'ML'
+        'BL'
+        'Top'
+        'TC'
+        'C'
+        'BC'
+        'Bottom'
+        'TR'
+        'MR'
+        'BR')
+      ParentBiDiMode = False
+      TabOrder = 17
+    end
+    object UD_Base: TUpDown
+      Left = 140
+      Top = 136
+      Width = 16
+      Height = 24
+      Associate = Edit_BASE
+      Min = 1
+      Max = 5
+      Position = 1
+      TabOrder = 18
     end
   end
   object Memo: TRichEdit
     Left = 0
-    Top = 876
+    Top = 953
     Width = 451
-    Height = 60
+    Height = 103
     Align = alClient
     Font.Charset = SHIFTJIS_CHARSET
     Font.Color = clWindowText
@@ -943,10 +963,12 @@ object Form_main: TForm_main
     ScrollBars = ssVertical
     TabOrder = 3
     Zoom = 100
+    ExplicitTop = 976
+    ExplicitHeight = 171
   end
   object SB: TStatusBar
     Left = 0
-    Top = 936
+    Top = 1056
     Width = 451
     Height = 19
     Panels = <
@@ -959,6 +981,7 @@ object Form_main: TForm_main
       item
         Width = 100
       end>
+    ExplicitTop = 936
   end
   object GroupBox4: TGroupBox
     Left = 0
