@@ -657,11 +657,12 @@ object Form_main: TForm_main
     end
     object SB_CLR_List: TSpeedButton
       Left = 378
-      Top = 222
+      Top = 220
       Width = 41
       Height = 22
       Caption = 'CLR'
       Flat = True
+      OnClick = SB_CLR_ListClick
     end
     object Label31: TLabel
       Left = 35
@@ -963,8 +964,6 @@ object Form_main: TForm_main
     ScrollBars = ssVertical
     TabOrder = 3
     Zoom = 100
-    ExplicitTop = 976
-    ExplicitHeight = 171
   end
   object SB: TStatusBar
     Left = 0
@@ -981,7 +980,6 @@ object Form_main: TForm_main
       item
         Width = 100
       end>
-    ExplicitTop = 936
   end
   object GroupBox4: TGroupBox
     Left = 0

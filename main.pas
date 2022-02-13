@@ -179,6 +179,7 @@ type
     procedure SB_DirClick(Sender: TObject);
     procedure SB_TagList_ReloadClick(Sender: TObject);
     procedure BB_STOP_ProcClick(Sender: TObject);
+    procedure SB_CLR_ListClick(Sender: TObject);
   private
     { Private êÈåæ }
   public
@@ -351,6 +352,17 @@ begin
   for j:=0 to PH-1 do
     for i:=0 to PW-1 do
       SelData[j,i] := false;
+end;
+
+procedure TForm_main.SB_CLR_ListClick(Sender: TObject);
+var
+  i,j:longint;
+begin
+  for j:=1 to SG_FixList.RowCount-1 do
+    for i:=0 to SG_FixList.ColCount-1 do
+      SG_FixList.Cells[i,j] := '';
+  SG_FixList.Cells[1,1] := '';
+
 end;
 
 procedure TForm_main.SB_DirClick(Sender: TObject);
@@ -1110,7 +1122,6 @@ begin
 
     UD_ImgNo.Position := k;
     Load_Data(Sender);
-//    BB_LoadClick(Sender);
     BB_Do_UnwrapClick(Sender);
     if not(Go) then
       exit;
@@ -1124,6 +1135,7 @@ begin
   Memo.Lines.SaveToFile(BDir+'\'+ExtractFileName(BFN)+'_memo.txt');
   //ShowMessage('Unwrapping Completed!');
 
+  WriteProc3(Sender);
 end;
 
 procedure TForm_main.BB_StopClick(Sender: TObject);
