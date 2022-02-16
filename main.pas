@@ -133,6 +133,10 @@ type
     Bevel1: TBevel;
     RG_Dir: TRadioGroup;
     UD_Base: TUpDown;
+    Label6: TLabel;
+    Edit_BKFN: TEdit;
+    SB_BKFN: TSpeedButton;
+    CB_Ser: TCheckBox;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure SB_FOpenClick(Sender: TObject);
@@ -141,6 +145,7 @@ type
     procedure Init_PInfo(Sender: TObject);
     procedure Calc_Ph(Sender: TObject);
     procedure Load_Data(Sender: TObject);
+    procedure Load_Data_Sub(FN:string;Sender: TObject);
     procedure BB_LoadClick(Sender: TObject);
     procedure UD_ImgNoClick(Sender: TObject; Button: TUDBtnType);
 
@@ -180,6 +185,7 @@ type
     procedure SB_TagList_ReloadClick(Sender: TObject);
     procedure BB_STOP_ProcClick(Sender: TObject);
     procedure SB_CLR_ListClick(Sender: TObject);
+    procedure SB_BKFNClick(Sender: TObject);
   private
     { Private êÈåæ }
   public
@@ -191,7 +197,7 @@ var
   Go : boolean;
   TagFN : string;
 
-  ImgData : array[0..4] of TImgData;
+  ImgData, BKImgData : array[0..4] of TImgData;
   SData     : array of double;
   SDataInfo : array of TSDataInfo;
   SPoint  : array[0..OIHeight,0..OIWidth] of TSPoint;
@@ -259,6 +265,8 @@ begin
     Edit_OFFY.Text  := Ini.ReadString( 'Param', 'OFFY', '0' );
 
     Edit_FN.Text  := Ini.ReadString( 'Param', 'FN', '' );
+    Edit_BKFN.Text  := Ini.ReadString( 'Param', 'BKFN', '' );
+    CB_Ser.Checked := Ini.ReadBool( 'Param', 'Ser', false );
 
     CB_FType.ItemIndex := Ini.ReadInteger( 'Param', 'File_Format', 2 );
     CB_PT.ItemIndex := Ini.ReadInteger( 'Param', 'Phase_Type', 0 );
@@ -327,6 +335,8 @@ begin
     Ini.WriteString( 'Param', 'OFFY', Edit_OFFY.Text );
 
     Ini.WriteString( 'Param', 'FN', Edit_FN.Text );
+    Ini.WriteString( 'Param', 'BKFN', Edit_BKFN.Text );
+    Ini.WriteBool( 'Param', 'Ser', CB_Ser.Checked );
 
     Ini.WriteInteger( 'Param', 'File_Format', CB_FType.ItemIndex );
     Ini.WriteInteger( 'Param', 'Phase_Type',CB_PT.ItemIndex   );
@@ -381,16 +391,26 @@ var
 begin
   if OpenDialog1.Execute then
   begin
-    TmpStr := OpenDialog1.FileName;
-    lStr := '';
-    li:=Length(TmpStr);
-    while (TmpStr[li]<>'_') and (li>0) do
+    if CB_Ser.Checked then
     begin
-      lStr := TmpStr[li]+lStr;
-      Dec(li);
-    end;
-    Edit_FN.Text := Copy(TmpStr,1,li);
+      TmpStr := OpenDialog1.FileName;
+      lStr := '';
+      li:=Length(TmpStr);
+      while (TmpStr[li]<>'_') and (li>0) do
+      begin
+        lStr := TmpStr[li]+lStr;
+        Dec(li);
+      end;
+      Edit_FN.Text := Copy(TmpStr,1,li);
+    end
+    else
+      Edit_FN.Text := OpenDialog1.FileName;
   end;
+end;
+
+procedure TForm_main.SB_BKFNClick(Sender: TObject);
+begin
+  Edit_BKFN.Text := OpenDialog1.FileName;
 end;
 
 
@@ -446,48 +466,66 @@ end;
 procedure TForm_main.Calc_Ph(Sender: TObject);
 var
   i,j:longint;
-  TmpDbl1,TmpDbl2:double;
+  Re, Im, BKRe, BKIm:double;
 begin
   //re&im
-  if CB_PT.ItemIndex=0 then
+  if Edit_BKFN.Text = '' then
   begin
-    for j:=0 to PH-1 do
-      for i:=0 to PW-1 do
-      begin
-        TmpDbl2 := ImgData[1].Data[j,i];
-        TmpDbl1 := ImgData[2].Data[j,i];
-        ImgData[1].Data[j,i] := ArcTan2(TmpDbl1,TmpDbl2);
-        ImgData[2].Data[j,i] := Sqrt(Sqr(TmpDbl1)+Sqr(TmpDbl2));
-        ImgData[0].Data[j,i] := ImgData[1].Data[j,i];
-      end;
+    if CB_PT.ItemIndex=0 then
+    begin
+      for j:=0 to PH-1 do
+        for i:=0 to PW-1 do
+        begin
+          Re := ImgData[1].Data[j,i];
+          Im := ImgData[2].Data[j,i];
+          ImgData[1].Data[j,i] := ArcTan2(Re,Im);
+          ImgData[2].Data[j,i] := Sqrt(Sqr(Re)+Sqr(Im));
+  //        ImgData[0].Data[j,i] := ImgData[1].Data[j,i];
+        end;
+    end;
+  end
+  else
+  begin
+    if CB_PT.ItemIndex=0 then
+    begin
+      for j:=0 to PH-1 do
+        for i:=0 to PW-1 do
+        begin
+          Re := ImgData[1].Data[j,i];
+          Im := ImgData[2].Data[j,i];
+          BKRe := BKImgData[1].Data[j,i];
+          BKIm := BKImgData[2].Data[j,i];
+
+          if (Sqr(BKRe)+Sqr(BKIm))<>0 then
+          begin
+            Re := (Re*BKRe+Im*BKIm)/(Sqr(BKRe)+Sqr(BKIm));
+            Im := (Im*BKRe-Re*BKIm)/(Sqr(BKRe)+Sqr(BKIm));
+          end;
+
+          ImgData[1].Data[j,i] := ArcTan2(Re,Im);
+          ImgData[2].Data[j,i] := Sqrt(Sqr(Re)+Sqr(Im));
+        end;
+    end;
   end;
   ImgData[0] := ImgData[1];
 end;
 
-procedure TForm_main.Load_Data(Sender: TObject);
-var
-  BFN : string;
+procedure TForm_main.Load_Data_Sub(FN:string;Sender: TObject);
 begin
-  Init_PInfo(Sender);
-  if Edit_ImgNo.Text<>'' then
-    BFN := Edit_FN.Text+UD_ImgNo.Position.ToString
-  else
-    BFN := Edit_FN.Text;
-
   if CB_FType.ItemIndex =0 then
   begin
     if CB_PT.ItemIndex=0 then
-    begin
-      Form_PW.Load_SglData(BFN+'.re',Sender);
+      begin
+      Form_PW.Load_SglData(FN+'.re',Sender);
       ImgData[1].Data := Form_PW.PData;
-      Form_PW.Load_SglData(BFN+'.im',Sender);
+      Form_PW.Load_SglData(FN+'.im',Sender);
       ImgData[2].Data := Form_PW.PData;
     end
     else
     begin
-      Form_PW.Load_SglData(BFN+'.amp',Sender);
+      Form_PW.Load_SglData(FN+'.amp',Sender);
       ImgData[2].Data := Form_PW.PData;
-      Form_PW.Load_SglData(BFN+'.ph',Sender);
+      Form_PW.Load_SglData(FN+'.ph',Sender);
       ImgData[1].Data := Form_PW.PData;
     end;
   end
@@ -495,19 +533,47 @@ begin
   begin
     if CB_PT.ItemIndex=0 then
     begin
-      Form_PW.Load_Data(BFN+'.re',Sender);
+      Form_PW.Load_Data(FN+'.re',Sender);
       ImgData[1].Data := Form_PW.PData;
-      Form_PW.Load_Data(BFN+'.im',Sender);
+      Form_PW.Load_Data(FN+'.im',Sender);
       ImgData[2].Data := Form_PW.PData;
     end
     else
     begin
-      Form_PW.Load_Data(BFN+'.amp',Sender);
+      Form_PW.Load_Data(FN+'.amp',Sender);
       ImgData[2].Data := Form_PW.PData;
-      Form_PW.Load_Data(BFN+'.ph',Sender);
+      Form_PW.Load_Data(FN+'.ph',Sender);
       ImgData[1].Data := Form_PW.PData;
     end;
   end;
+end;
+
+procedure TForm_main.Load_Data(Sender: TObject);
+var
+  BFN, BKBFN : string;
+begin
+  Init_PInfo(Sender);
+
+  if CB_Ser.Checked then
+  begin
+    if Edit_ImgNo.Text<>'' then
+      BFN := Edit_FN.Text+UD_ImgNo.Position.ToString
+    else
+      BFN := Edit_FN.Text;
+  end
+  else
+  begin
+    BFN := Edit_FN.Text;
+    BKBFN := Edit_BKFN.Text;
+  end;
+
+  if BKBFN<>'' then
+  begin
+    Load_Data_Sub(BKBFN,Sender);
+    BKImgData := ImgData;
+  end;
+
+  Load_Data_Sub(BFN,Sender);
 
   Calc_PH(Sender);
 
@@ -516,6 +582,7 @@ begin
   SIData[3] := ImgData[3].Data;
   SIData[4] := ImgData[4].Data;
 end;
+
 
 
 procedure TForm_main.BB_LoadClick(Sender: TObject);

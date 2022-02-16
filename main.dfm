@@ -332,7 +332,7 @@ object Form_main: TForm_main
     Left = 0
     Top = 379
     Width = 451
-    Height = 184
+    Height = 226
     Align = alTop
     Caption = 'File Info.'
     Color = 15135487
@@ -361,7 +361,7 @@ object Form_main: TForm_main
     end
     object SB_FOpen: TSpeedButton
       Left = 422
-      Top = 45
+      Top = 43
       Width = 23
       Height = 22
       Flat = True
@@ -383,7 +383,7 @@ object Form_main: TForm_main
     end
     object Label2: TLabel
       Left = 5
-      Top = 76
+      Top = 118
       Width = 97
       Height = 16
       Hint = '21'
@@ -397,7 +397,7 @@ object Form_main: TForm_main
     end
     object SB_Copy: TSpeedButton
       Left = 149
-      Top = 72
+      Top = 114
       Width = 77
       Height = 22
       Hint = '21'
@@ -412,7 +412,7 @@ object Form_main: TForm_main
     end
     object Label3: TLabel
       Left = 298
-      Top = 76
+      Top = 118
       Width = 40
       Height = 16
       Hint = '21'
@@ -426,7 +426,7 @@ object Form_main: TForm_main
     end
     object Label4: TLabel
       Left = 5
-      Top = 129
+      Top = 171
       Width = 45
       Height = 16
       Hint = '21'
@@ -440,21 +440,56 @@ object Form_main: TForm_main
     end
     object Label17: TLabel
       Left = 108
-      Top = 129
+      Top = 171
       Width = 74
       Height = 16
       Caption = 'Phase Type'
     end
     object Label18: TLabel
-      Left = 298
-      Top = 129
+      Left = 236
+      Top = 171
       Width = 29
       Height = 16
       Caption = 'Digit'
     end
+    object Label6: TLabel
+      Left = 6
+      Top = 70
+      Width = 79
+      Height = 16
+      Caption = 'BK File Name'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object SB_BKFN: TSpeedButton
+      Left = 420
+      Top = 92
+      Width = 23
+      Height = 22
+      Flat = True
+      Glyph.Data = {
+        76010000424D7601000000000000760000002800000020000000100000000100
+        04000000000000010000120B0000120B00001000000000000000000000000000
+        800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00555555555555
+        5555555555555555555555555555555555555555555555555555555555555555
+        555555555555555555555555555555555555555FFFFFFFFFF555550000000000
+        55555577777777775F55500B8B8B8B8B05555775F555555575F550F0B8B8B8B8
+        B05557F75F555555575F50BF0B8B8B8B8B0557F575FFFFFFFF7F50FBF0000000
+        000557F557777777777550BFBFBFBFB0555557F555555557F55550FBFBFBFBF0
+        555557F555555FF7555550BFBFBF00055555575F555577755555550BFBF05555
+        55555575FFF75555555555700007555555555557777555555555555555555555
+        5555555555555555555555555555555555555555555555555555}
+      NumGlyphs = 2
+      OnClick = SB_BKFNClick
+    end
     object Edit_FN: TEdit
       Left = 12
-      Top = 43
+      Top = 41
       Width = 408
       Height = 24
       Hint = '21'
@@ -469,7 +504,7 @@ object Form_main: TForm_main
     end
     object CB_FType: TComboBox
       Left = 12
-      Top = 151
+      Top = 193
       Width = 77
       Height = 24
       Hint = '21'
@@ -488,7 +523,7 @@ object Form_main: TForm_main
     end
     object Edit_OW: TEdit
       Left = 12
-      Top = 99
+      Top = 141
       Width = 56
       Height = 24
       Hint = '21'
@@ -504,7 +539,7 @@ object Form_main: TForm_main
     end
     object Edit_OH: TEdit
       Left = 74
-      Top = 99
+      Top = 141
       Width = 56
       Height = 24
       Hint = '21'
@@ -520,7 +555,7 @@ object Form_main: TForm_main
     end
     object Edit_PW: TEdit
       Left = 156
-      Top = 99
+      Top = 141
       Width = 56
       Height = 24
       Hint = '21'
@@ -536,7 +571,7 @@ object Form_main: TForm_main
     end
     object Edit_PH: TEdit
       Left = 218
-      Top = 99
+      Top = 141
       Width = 56
       Height = 24
       Hint = '21'
@@ -552,7 +587,7 @@ object Form_main: TForm_main
     end
     object Edit_OFFX: TEdit
       Left = 302
-      Top = 98
+      Top = 140
       Width = 56
       Height = 24
       Hint = '21'
@@ -568,7 +603,7 @@ object Form_main: TForm_main
     end
     object Edit_OFFY: TEdit
       Left = 364
-      Top = 98
+      Top = 140
       Width = 56
       Height = 24
       Hint = '21'
@@ -584,7 +619,7 @@ object Form_main: TForm_main
     end
     object CB_PT: TComboBox
       Left = 116
-      Top = 151
+      Top = 193
       Width = 97
       Height = 24
       Font.Charset = DEFAULT_CHARSET
@@ -601,8 +636,8 @@ object Form_main: TForm_main
         'Amp & Ph')
     end
     object Edit_Dig: TEdit
-      Left = 302
-      Top = 151
+      Left = 240
+      Top = 193
       Width = 56
       Height = 24
       Font.Charset = DEFAULT_CHARSET
@@ -615,18 +650,41 @@ object Form_main: TForm_main
       Text = '1'
     end
     object UD_Dig: TUpDown
-      Left = 358
-      Top = 151
+      Left = 296
+      Top = 193
       Width = 16
       Height = 24
       Associate = Edit_Dig
       Position = 1
       TabOrder = 10
     end
+    object Edit_BKFN: TEdit
+      Left = 12
+      Top = 90
+      Width = 408
+      Height = 24
+      Hint = '21'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 11
+      Text = 'D:\DE\12071715_\12071715_0_s_10'
+    end
+    object CB_Ser: TCheckBox
+      Left = 334
+      Top = 197
+      Width = 97
+      Height = 17
+      Caption = 'Series'
+      TabOrder = 12
+    end
   end
   object GroupBox2: TGroupBox
     Left = 0
-    Top = 563
+    Top = 605
     Width = 451
     Height = 390
     Align = alTop
@@ -641,6 +699,7 @@ object Form_main: TForm_main
     ParentColor = False
     ParentFont = False
     TabOrder = 2
+    ExplicitTop = 563
     object Label10: TLabel
       Left = 137
       Top = 26
@@ -950,9 +1009,9 @@ object Form_main: TForm_main
   end
   object Memo: TRichEdit
     Left = 0
-    Top = 953
+    Top = 995
     Width = 451
-    Height = 103
+    Height = 61
     Align = alClient
     Font.Charset = SHIFTJIS_CHARSET
     Font.Color = clWindowText
@@ -964,6 +1023,8 @@ object Form_main: TForm_main
     ScrollBars = ssVertical
     TabOrder = 3
     Zoom = 100
+    ExplicitTop = 953
+    ExplicitHeight = 103
   end
   object SB: TStatusBar
     Left = 0
