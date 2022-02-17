@@ -457,13 +457,10 @@ begin
   Finalize(SData);
   Finalize(SDataInfo);
 
-  if Length(SData)<=0 then
-  begin
-    SetLength(SData,(PW+1)*(PH+1)*2);
-    Memo.Lines.Add('Length of SData :'+High(SData).ToString);
-  end;
-  if Length(SDataInfo)<=0 then
-    SetLength(SDataInfo,(PW+1)*(PH+1)*2);
+  SetLength(SData,(PW+1)*(PH+1)*2);
+  Memo.Lines.Add('Length of SData :'+High(SData).ToString);
+
+  SetLength(SDataInfo,(PW+1)*(PH+1)*2);
 end;
 
 
@@ -954,8 +951,8 @@ begin
       SPoint[j,i].X := i;
       SPoint[j,i].Y := j;
       SPoint[j,i].BaseP := 0;
-      RList[j*PW+i].Clear;
       SPoint[j,i].Rank :=j*PW+i;
+      RList[j*PW+i].Clear;
       RList[j*PW+i].Add(Addr(SPoint[j,i]));
     end;
   if (SG_FixList.Cells[0,1] <>'') and (CB_FixP.Checked) then
