@@ -153,7 +153,7 @@ type
     procedure BB_Calc_DistClick(Sender: TObject);
 
     procedure SwapInfo(Lo,Hi:Integer);
-    procedure QuickSort2(var ldata: array of double; lst, lend: Integer);
+    procedure QuickSort2(var ldata: array of double; lst, lend: Int64);
     procedure BB_SortClick(Sender: TObject);
 
     procedure Draw_Unwrapping(Sender: TObject);
@@ -410,7 +410,8 @@ end;
 
 procedure TForm_main.SB_BKFNClick(Sender: TObject);
 begin
-  Edit_BKFN.Text := OpenDialog1.FileName;
+  if OpenDialog1.Execute then
+    Edit_BKFN.Text := OpenDialog1.FileName;
 end;
 
 
@@ -453,6 +454,9 @@ begin
   PW := Form_PW.PW;
   PH := Form_PW.PH;
 
+  Finalize(SData);
+  Finalize(SDataInfo);
+
   if Length(SData)<=0 then
   begin
     SetLength(SData,(PW+1)*(PH+1)*2);
@@ -466,7 +470,7 @@ end;
 procedure TForm_main.Calc_Ph(Sender: TObject);
 var
   i,j:longint;
-  Re, Im, BKRe, BKIm:double;
+  Re, Im, BKRe, BKIm, Re2, Im2, Amp, Phase, BKAmp, BKPh:double;
 begin
   //re&im
   if Edit_BKFN.Text = '' then
@@ -480,7 +484,7 @@ begin
           Im := ImgData[2].Data[j,i];
           ImgData[1].Data[j,i] := ArcTan2(Re,Im);
           ImgData[2].Data[j,i] := Sqrt(Sqr(Re)+Sqr(Im));
-  //        ImgData[0].Data[j,i] := ImgData[1].Data[j,i];
+          ImgData[0].Data[j,i] := ImgData[1].Data[j,i];
         end;
     end;
   end
@@ -498,16 +502,48 @@ begin
 
           if (Sqr(BKRe)+Sqr(BKIm))<>0 then
           begin
-            Re := (Re*BKRe+Im*BKIm)/(Sqr(BKRe)+Sqr(BKIm));
-            Im := (Im*BKRe-Re*BKIm)/(Sqr(BKRe)+Sqr(BKIm));
+            Re2 := (Re*BKRe+Im*BKIm)/(Sqr(BKRe)+Sqr(BKIm));
+            Im2 := (Im*BKRe-Re*BKIm)/(Sqr(BKRe)+Sqr(BKIm));
+          end
+          else
+          begin
+            Re2 :=0;
+            Im2 :=0;
           end;
 
-          ImgData[1].Data[j,i] := ArcTan2(Re,Im);
-          ImgData[2].Data[j,i] := Sqrt(Sqr(Re)+Sqr(Im));
+          ImgData[1].Data[j,i] := ArcTan2(Re2,Im2);
+          ImgData[2].Data[j,i] := Sqrt(Sqr(Re2)+Sqr(Im2));
+          ImgData[0].Data[j,i] := ImgData[1].Data[j,i];
+        end;
+    end
+    else
+    begin
+      for j:=0 to PH-1 do
+        for i:=0 to PW-1 do
+        begin
+          Amp := ImgData[2].Data[j,i];
+          Phase := ImgData[1].Data[j,i];
+          Re := Amp*Cos(Phase);
+          Im := Amp*Sin(Phase);
+
+          BKAmp := BKImgData[2].Data[j,i];
+          BKPh := BKImgData[1].Data[j,i];
+          BKRe := BKAmp*Cos(BKPh);
+          BKIm := BKAmp*Sin(BKPh);
+
+          if (Sqr(BKRe)+Sqr(BKIm))<>0 then
+          begin
+            Re2 := (Re*BKRe+Im*BKIm)/(Sqr(BKRe)+Sqr(BKIm));
+            Im2 := (Im*BKRe-Re*BKIm)/(Sqr(BKRe)+Sqr(BKIm));
+          end;
+
+          ImgData[1].Data[j,i] := ArcTan2(Re2,Im2);
+          ImgData[2].Data[j,i] := Sqrt(Sqr(Re2)+Sqr(Im2));
+          ImgData[0].Data[j,i] := ImgData[1].Data[j,i];
         end;
     end;
   end;
-  ImgData[0] := ImgData[1];
+
 end;
 
 procedure TForm_main.Load_Data_Sub(FN:string;Sender: TObject);
@@ -576,6 +612,8 @@ begin
   Load_Data_Sub(BFN,Sender);
 
   Calc_PH(Sender);
+
+  Form_PW.PData := ImgData[0].Data;
 
   SIData[1] := ImgData[1].Data;
   SIData[2] := ImgData[2].Data;
@@ -845,9 +883,9 @@ begin
 end;
 
 
-procedure TForm_main.QuickSort2(var ldata: array of double; lst, lend: Integer);
+procedure TForm_main.QuickSort2(var ldata: array of double; lst, lend: Int64);
 var
-  i,j: Integer;
+  i,j: Int64;
   t,n : double;
 begin
   repeat
@@ -1111,13 +1149,18 @@ procedure TForm_main.BB_SaveClick(Sender: TObject);
 var
   BFN, BDir : string;
 begin
-  if Edit_ImgNo.Text<>'' then
+  if CB_Ser.Checked then
   begin
-    BFN := Edit_FN.Text;
-    Bdir := TDirectory.GetParent(TDirectory.GetParent(ExtractFilePath(BFN)))+'\uw';
-    if not(TDirectory.Exists(BDir)) then
-      MkDir(BDir);
-    Form_PW.Save_Data(BDir+'\'+ExtractFileName(BFN)+'u_'+Edit_ImgNo.Text,Sender);
+    if Edit_ImgNo.Text<>'' then
+    begin
+      BFN := Edit_FN.Text;
+      Bdir := TDirectory.GetParent(TDirectory.GetParent(ExtractFilePath(BFN)))+'\uw';
+      if not(TDirectory.Exists(BDir)) then
+        MkDir(BDir);
+      Form_PW.Save_Data(BDir+'\'+ExtractFileName(BFN)+'u_'+Edit_ImgNo.Text,Sender);
+    end
+    else
+      Form_PW.Save_Data(Edit_FN.Text+'_u',Sender);
   end
   else
     Form_PW.Save_Data(Edit_FN.Text+'_u',Sender);

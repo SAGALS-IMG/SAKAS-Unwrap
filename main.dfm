@@ -699,7 +699,6 @@ object Form_main: TForm_main
     ParentColor = False
     ParentFont = False
     TabOrder = 2
-    ExplicitTop = 563
     object Label10: TLabel
       Left = 137
       Top = 26
@@ -1023,8 +1022,6 @@ object Form_main: TForm_main
     ScrollBars = ssVertical
     TabOrder = 3
     Zoom = 100
-    ExplicitTop = 953
-    ExplicitHeight = 103
   end
   object SB: TStatusBar
     Left = 0
