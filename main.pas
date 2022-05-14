@@ -483,6 +483,12 @@ begin
           ImgData[2].Data[j,i] := Sqrt(Sqr(Re)+Sqr(Im));
           ImgData[0].Data[j,i] := ImgData[1].Data[j,i];
         end;
+    end
+    else
+    begin
+      for j:=0 to PH-1 do
+        for i:=0 to PW-1 do
+          ImgData[0].Data[j,i] := ImgData[1].Data[j,i];
     end;
   end
   else
