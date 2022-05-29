@@ -1201,7 +1201,7 @@ object Form_main: TForm_main
         Width = 16
         Height = 24
         Associate = Edit_ImgNo
-        Max = 2000
+        Max = 20000
         Position = 20
         TabOrder = 2
         OnClick = UD_ImgNoClick
